@@ -29,7 +29,7 @@ async function removeContact(contactId) {
 async function addContact(name, email, phone) {
     const contacts = await listContacts();
     const newContact = {
-        id: String(Date.now()),
+        id: String(Math.random().toString),
         name,
         email,
         phone
