@@ -1,6 +1,6 @@
 const { listContacts, getContactById, removeContact, addContact } = require('./contacts');
-
 const { Command } = require("commander");
+
 const program = new Command();
 program
   .option("-a, --action <type>", "choose action")
@@ -13,23 +13,30 @@ program.parse(process.argv);
 
 const argv = program.opts();
 
-// TODO: refaktor
-function invokeAction({ action, id, name, email, phone }) {
+async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      // ...
+      const contacts = await listContacts();
+      console.table(contacts);
       break;
 
     case "get":
-      // ... id
+      const contact = await getContactById(id);
+      if (contact) {
+        console.log("Znaleziony kontakt:", contact);
+      } else {
+        console.log(`Kontakt o ID ${id} nie został znaleziony`);
+      }
       break;
 
     case "add":
-      // ... name email phone
+      await addContact(name, email, phone);
+      console.log(`Dodano nowy kontakt: ${name}`);
       break;
 
     case "remove":
-      // ... id
+      await removeContact(id);
+      console.log(`Kontakt o ID ${id} został usunięty`);
       break;
 
     default:
@@ -38,8 +45,3 @@ function invokeAction({ action, id, name, email, phone }) {
 }
 
 invokeAction(argv);
-
-
-
-
-console.log('test')
