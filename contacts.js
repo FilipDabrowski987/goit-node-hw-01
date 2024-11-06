@@ -25,7 +25,6 @@ async function removeContact(contactId) {
     const updatedContacts = contacts.filter(contact => contact.id !== contactId);
     await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
     console.log(`Kontakt o ID ${contactId} został usunięty`);
-
 }
 
 async function addContact(name, email, phone) {
